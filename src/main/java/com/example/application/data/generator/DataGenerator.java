@@ -1,17 +1,13 @@
 package com.example.application.data.generator;
-
+/*
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.example.application.data.entity.Company;
-import com.example.application.data.entity.Contact;
-import com.example.application.data.entity.Status;
 import com.example.application.data.repository.CompanyRepository;
 import com.example.application.data.repository.ContactRepository;
-import com.example.application.data.repository.StatusRepository;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 
 import org.slf4j.Logger;
@@ -67,3 +63,4 @@ public class DataGenerator {
     }
 
 }
+*/

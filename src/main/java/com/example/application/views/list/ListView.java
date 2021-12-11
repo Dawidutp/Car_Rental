@@ -14,7 +14,10 @@ public class ListView extends VerticalLayout {
     public ListView() {
         setSpacing(false);
 
+
+
         Image img = new Image("images/empty-plant.png", "placeholder plant");
+        Image img2 = new Image("Images://vehicle.png", "Background image");
         img.setWidth("200px");
         add(img);
 
