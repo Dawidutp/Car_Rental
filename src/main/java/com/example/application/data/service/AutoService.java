@@ -21,25 +21,45 @@ public class AutoService {
     private MessagesBean messages;
 
 
+
     public List<Auto> findAutoByMiasto(Miasto miasto) {
         return autoRepository.findAutoByMiasto(miasto);
     }
 
-/*    public List<Auto> findByMileageLowerThan(Integer przebieg) {
-        return autoRepository.findByMileageLowerThan(przebieg);
-    }*/
+    public List<Auto> findAutoByPrzebiegLessThan(Integer przebieg) {
+        return autoRepository.findAutoByPrzebiegLessThan(przebieg);
+    }
+    public List<Auto> findAllCars(String filterText){
+        if(filterText == null || filterText.isEmpty()){
+            return autoRepository.findAll();
+        } else {
+            return autoRepository.search(filterText);
+        }
+    }
 
-//    public Auto create(Auto auto) {
-//        if (auto.getMiasto() == null) {
-//            throw new IllegalArgumentException(messages.get("Auto nie istnieje"));
-//        }
-//        if (auto.getMiasto().getId() == null || !miastoService.existsById(auto.getMiasto().getId())) {
-//            throw new EntityNotFoundException(messages.get("Miasto nie istnieje"));
-//        }
-//        if (autoRepository.existsById(auto.getRegistrationNumber())) {
-//            throw new EntityExistsException(messages.get("Auto istnieje"));
-//        }
-//        return autoRepository.save(auto);
-//
-//    }
+    public Auto create(Auto auto) {
+        if (auto.getMiasto() == null) {
+            throw new IllegalArgumentException(messages.get("Auto nie istnieje"));
+        }
+        if (auto.getMiasto().getId_miasta() == null || !miastoService.existsById(auto.getMiasto().getId_miasta())) {
+            throw new EntityNotFoundException(messages.get("Miasto nie istnieje"));
+        }
+        if (autoRepository.existsById(auto.getVINnumber())) {
+            throw new EntityExistsException(messages.get("Auto istnieje"));
+        }
+        return autoRepository.save(auto);
+
+        }
+    public void deleteCar(Auto auto){
+        autoRepository.delete(auto);
+
+    }
+    public void saveCar(Auto auto){
+        if(auto == null){
+            System.err.println("Car is null.");
+            return;
+        }
+
+        autoRepository.save(auto);
+    }
 }

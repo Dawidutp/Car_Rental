@@ -20,7 +20,7 @@ public class Miasto implements Serializable {
     @Id
     @NotNull
     @Column(name = "id_miasta")
-    private int id_miasta;
+    private Integer id_miasta;
 
     @NotNull
     @Column(name = "Nazwa_Miasta")
