@@ -49,5 +49,12 @@ public class RentService {
     public boolean canCreate(Rent rent) {
         return autoService.findAutoByMiasto(rent.getMiasto()).contains(rent.getCar());
     }
+    public List<Rent> findAllRents(String filterText){
+        if(filterText == null || filterText.isEmpty()){
+            return rentRepository.findAll();
+        } else {
+            return rentRepository.search(filterText);
+        }
+    }
 
 }

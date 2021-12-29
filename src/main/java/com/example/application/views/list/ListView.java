@@ -19,10 +19,12 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.component.textfield.TextField;
 
+import javax.annotation.security.PermitAll;
 import java.util.Collections;
 
 
-@Route(value = "")
+@Route(value = "", layout = MainLayout.class)
+@PermitAll
 public class ListView extends VerticalLayout {
     Grid<Auto> grid = new Grid<>(Auto.class);
     TextField filterText = new TextField();

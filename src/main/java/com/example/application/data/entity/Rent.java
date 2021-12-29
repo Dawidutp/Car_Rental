@@ -21,26 +21,25 @@ public class Rent implements Serializable {
     @EqualsAndHashCode.Include
     private Integer id;
 
-    @FutureOrPresent(message = "{futOrPres}")
-    @NotNull(message = "{notNull}")
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate rentDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @FutureOrPresent(message = "{futOrPres}")
     private LocalDate returnDate;
-
+    @NotNull
+    @Column(name = "Km")
     private Integer km;
 
     @ManyToOne
-    @NotNull(message = "{notNull}")
+    @NotNull
     private Klient driver;
 
     @ManyToOne
-    @NotNull(message = "{notNull}")
+    @NotNull
     private Auto car;
 
     @ManyToOne
-    @NotNull(message = "{notNull}")
+    @NotNull
     private Miasto miasto;
 }

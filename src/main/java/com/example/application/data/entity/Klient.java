@@ -20,7 +20,12 @@ public class Klient {
     @Id
     @NotNull
     private int IdKlienta;
-
+    @NotNull
+    @Column(name = "Email")
+    private String Email;
+    @NotNull
+    @Column(name = "Password")
+    private String Password;
     @NotNull
     @Column(name = "Imie")
     private String Imie;
