@@ -6,6 +6,8 @@ import com.example.application.data.repository.RentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 @Service
 public class RentService {
@@ -55,6 +57,19 @@ public class RentService {
         } else {
             return rentRepository.search(filterText);
         }
+    }
+
+    public void deleteCar(Rent rent){
+        rentRepository.delete(rent);
+
+    }
+    public void saveCar(Rent rent){
+        if(rent == null){
+            System.err.println("Rent is null.");
+            return;
+        }
+
+        rentRepository.save(rent);
     }
 
 }

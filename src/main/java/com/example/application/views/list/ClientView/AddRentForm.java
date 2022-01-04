@@ -1,4 +1,4 @@
-package com.example.application.views.list;
+package com.example.application.views.list.ClientView;
 
 import com.example.application.data.entity.Auto;
 import com.example.application.data.entity.Miasto;
@@ -8,12 +8,10 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.charts.events.ChartLoadEvent;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
-import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
@@ -21,10 +19,10 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 
 import java.util.List;
-
-public class AddForm extends FormLayout {
+/*
+public class AddRentForm extends FormLayout {
     Binder<Auto> binder = new BeanValidationBinder<>(Auto.class);
-    
+
     IntegerField VINnumber = new IntegerField("VIN Number");
     TextField registrationNumber = new TextField("Numer rejestracyjny");
     TextField model= new TextField("Model");
@@ -36,8 +34,8 @@ public class AddForm extends FormLayout {
     Button close = new Button("Cancel");
     private Auto auto;
 
-    public AddForm(List<Miasto> miasta) {
-        addClassName("auto-form");
+    public AddRentForm(List<Miasto> miasta) {
+        addClassName("rent-form");
         binder.bindInstanceFields(this);
 
         miasto.setItems(miasta);
@@ -62,8 +60,8 @@ public class AddForm extends FormLayout {
         close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, auto)));
-        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
+        delete.addClickListener(event -> fireEvent(new com.example.application.views.list.ClientView.AddRentForm.DeleteEvent(this, auto)));
+        close.addClickListener(event -> fireEvent(new com.example.application.views.list.ClientView.AddRentForm.CloseEvent(this)));
 
         save.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);
@@ -74,17 +72,17 @@ public class AddForm extends FormLayout {
     private void validateAndSave() {
         try {
             binder.writeBean(auto);
-            fireEvent(new SaveEvent(this, auto));
+            fireEvent(new com.example.application.views.list.ClientView.AddRentForm.SaveEvent(this, auto));
         } catch (ValidationException e){
             e.printStackTrace();
         }
     }
 
     // Events
-    public static abstract class AutoFormEvent extends ComponentEvent<AddForm> {
+    public static abstract class AutoFormEvent extends ComponentEvent<com.example.application.views.list.AddCarForm> {
         private Auto auto;
 
-        protected AutoFormEvent(AddForm source, Auto auto) {
+        protected AutoFormEvent(com.example.application.views.list.ClientView.AddRentForm source, Auto auto) {
             super(source, false);
             this.auto = auto;
         }
@@ -94,21 +92,21 @@ public class AddForm extends FormLayout {
         }
     }
 
-    public static class SaveEvent extends AutoFormEvent {
-        SaveEvent(AddForm source, Auto auto) {
+    public static class SaveEvent extends com.example.application.views.list.AddCarForm.AutoFormEvent {
+        SaveEvent(com.example.application.views.list.ClientView.AddRentForm source, Auto auto) {
             super(source, auto);
         }
     }
 
-    public static class DeleteEvent extends AutoFormEvent {
-        DeleteEvent(AddForm source, Auto auto) {
+    public static class DeleteEvent extends com.example.application.views.list.AddCarForm.AutoFormEvent {
+        DeleteEvent(com.example.application.views.list.ClientView.AddRentForm source, Auto auto) {
             super(source, auto);
         }
 
     }
 
-    public static class CloseEvent extends AutoFormEvent {
-        CloseEvent(AddForm source) {
+    public static class CloseEvent extends com.example.application.views.list.AddCarForm.AutoFormEvent {
+        CloseEvent(com.example.application.views.list.AddCarForm source) {
             super(source, null);
         }
     }
@@ -117,4 +115,4 @@ public class AddForm extends FormLayout {
                                                                   ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
-}
+}*/

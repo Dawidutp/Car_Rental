@@ -14,7 +14,7 @@ import com.vaadin.flow.router.BeforeEnterListener;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route("login")
+@Route("login2")
 @PageTitle("Login | Car Rental")
 public class LoginView extends VerticalLayout implements BeforeEnterListener {
 

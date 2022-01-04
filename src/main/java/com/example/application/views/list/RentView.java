@@ -21,13 +21,14 @@ import javax.annotation.security.PermitAll;
 @PageTitle("Rents | CarRent")
 @PermitAll
 public class RentView extends VerticalLayout {
-    private RentService rentService;
+
     Grid<Rent> grid2 = new Grid<>(Rent.class);
-    TextField filterText = new TextField();
-    AddForm form2;
+    TextField filterText2 = new TextField();
+    Button deleteButton = new Button("Delete"); //pamiętaj to dokończyć
+    private RentService rentService;
 
 
-    public RentView(Rent rent) {
+    public RentView(RentService rentService) {
         this.rentService = rentService;
         addClassName("rent-view");
         setSizeFull();
@@ -36,47 +37,44 @@ public class RentView extends VerticalLayout {
 
         add(
                 getToolbar2(),
-                getContent2()
+                grid2
         );
 
         updateList2();
-        closeEditor2();
+    }
+
+    private void updateList2() {
+        grid2.setItems(rentService.findAllRents(filterText2.getValue()));
     }
 
     private void configureGrid2(){
         grid2.addClassName("Rents-grid");
         grid2.setSizeFull();
-        grid2.addColumn(Rent::getId).setHeader("Id");
-        grid2.addColumn(Rent::getRentDate).setHeader("Rent Date");
-        grid2.addColumn(Rent::getReturnDate).setHeader("Return Date");
-        grid2.addColumn(Rent::getKm).setHeader("Km");
-        grid2.addColumn(Rent::getDriver).setHeader("Client");
-        grid2.addColumn(Rent::getCar).setHeader("Car");
-        grid2.addColumn(Rent::getMiasto).setHeader("Miasto");
-    }
-    private Component getContent2(){
-        HorizontalLayout content2= new HorizontalLayout(grid2);
-        content2.addClassName("content2");
-        content2.setSizeFull();
-        return content2;
-    }
-    private Component getToolbar2(){
-        filterText.setPlaceholder("Filter by Car or Client");
-        filterText.setClearButtonVisible(true);
-        filterText.setValueChangeMode(ValueChangeMode.LAZY);
-        filterText.addValueChangeListener(e ->updateList2());
+        grid2.setColumns("id","rentDate","returnDate","km","driver","car","miasto");
+        grid2.getColumns().forEach(col->col.setAutoWidth(true));
 
-        HorizontalLayout toolbar2 = new HorizontalLayout(filterText);
-        toolbar2.addClassName("toolbar");
+
+//        grid2.asSingleSelect().addValueChangeListener(e -> editAuto(e.getValue()));
+    }
+//    private Component getContent2(){
+//        HorizontalLayout content2= new HorizontalLayout(grid2);
+//        content2.addClassName("content2");
+//        content2.setSizeFull();
+//        return content2;
+//    }
+    private Component getToolbar2(){
+        filterText2.setPlaceholder("Filter by Car or Client");
+        filterText2.setClearButtonVisible(true);
+        filterText2.setValueChangeMode(ValueChangeMode.LAZY);
+        filterText2.addValueChangeListener(e ->updateList2());
+
+        HorizontalLayout toolbar2 = new HorizontalLayout(filterText2,deleteButton);
+        toolbar2.addClassName("toolbar2");
         return toolbar2;
     }
-    private void closeEditor2() {
-        form2.setAuto(null);
-        form2.setVisible(false);
-        removeClassName("editing");
-    }
-    private void updateList2() {
-        grid2.setItems(rentService.findAllRents(filterText.getValue()));
-    }
-
+//    private void closeEditor2() {
+//        form2.setAuto(null);
+//        form2.setVisible(false);
+//        removeClassName("editing");
+//    }
 }

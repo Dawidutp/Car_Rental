@@ -1,31 +1,32 @@
-package com.example.application.views.list;
+package com.example.application.views.list.ClientView;
 
 import com.example.application.data.entity.Auto;
 import com.example.application.data.service.AutoService;
 import com.example.application.data.service.MiastoService;
+import com.example.application.views.list.AddCarForm;
+import com.example.application.views.list.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.component.textfield.TextField;
 
 import javax.annotation.security.PermitAll;
 
-
-@Route(value = "ListView", layout = MainLayout.class)
+@Route(value = "MainClientView", layout = MainLayout2.class)
 @PermitAll
-public class ListView extends VerticalLayout {
+public class MainView extends VerticalLayout {
     Grid<Auto> grid = new Grid<>(Auto.class);
     TextField filterText = new TextField();
     AddCarForm form;
     private AutoService autoService;
     private MiastoService miastoService;
 
-    public ListView(AutoService autoService,MiastoService miastoService) {
+    public MainView(AutoService autoService,MiastoService miastoService) {
         this.autoService = autoService;
         this.miastoService = miastoService;
         addClassName("list-view");
@@ -35,8 +36,8 @@ public class ListView extends VerticalLayout {
         configureForm();
 
         add(
-              getToolbar(),
-              getContent()
+                getToolbar(),
+                getContent()
         );
 
         updateList();
@@ -59,7 +60,7 @@ public class ListView extends VerticalLayout {
         content.setFlexGrow(1,form);
         content.addClassName("content");
         content.setSizeFull();
-       return content;
+        return content;
     }
     private void configureForm() {
         form = new AddCarForm(miastoService.findAll());
@@ -90,7 +91,8 @@ public class ListView extends VerticalLayout {
         Button addcarButton = new Button("Add car");
         addcarButton.addClickListener(e -> addCar());
 
-        HorizontalLayout toolbar = new HorizontalLayout(filterText,addcarButton);
+        Button login = new Button("Login", buttonClickEvent -> UI.getCurrent().navigate("login"));
+        HorizontalLayout toolbar = new HorizontalLayout(filterText,addcarButton, login);
         toolbar.addClassName("toolbar");
         return toolbar;
     }

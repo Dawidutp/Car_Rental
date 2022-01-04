@@ -2,6 +2,7 @@ package com.example.application.data.security;
 
 import com.example.application.views.list.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurityConfigurerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,30 +11,46 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
-@EnableWebSecurity
+import javax.sql.DataSource;
+
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    private LoginSuccesHandler succesHandler;
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select Email,Password,enabled from klient where Email=?")
+                .authoritiesByUsernameQuery("select Email, role from klient where Email=?")
+
+        ;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        setLoginView(http, LoginView.class);
-    }
+        http.authorizeRequests()
+                .antMatchers("/login2").permitAll()
+                .antMatchers("/ListView/*").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/MainClientView/*").hasAnyAuthority("ROLE_USER")
+                .anyRequest().authenticated()
+                .and()
+                .csrf().disable().formLogin()
+                .loginPage("/login2").permitAll()
+                .failureUrl("/login2?error=true")
+                .successHandler(succesHandler);
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/images/**");
-        super.configure(web);
-    }
-
-    @Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
-        return new InMemoryUserDetailsManager(User.withUsername("admin")
-                .password("{noop}admin")
-                .roles("ADMIN").build());
+      //  super.configure(http);
+      //  setLoginView(http, LoginView.class);
     }
 }

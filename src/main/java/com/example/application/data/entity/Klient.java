@@ -32,6 +32,12 @@ public class Klient {
     @NotNull
     @Column(name = "Nazwisko")
     private String Nazwisko;
+    @NotNull
+    @Column(name = "enabled")
+    private int enabled;
+    @NotNull
+    @Column(name = "role")
+    private String role;
 
 
 }
