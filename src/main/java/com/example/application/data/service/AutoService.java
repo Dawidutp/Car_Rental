@@ -1,9 +1,11 @@
 package com.example.application.data.service;
 
 import com.example.application.data.entity.Auto;
+import com.example.application.data.entity.Klient;
 import com.example.application.data.entity.Miasto;
 import com.example.application.data.repository.AutoRepository;
 import com.example.application.data.util.MessagesBean;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,9 @@ public class AutoService {
     @Autowired
     private MessagesBean messages;
 
-
+    public List<Auto> findAll() {
+        return autoRepository.findAll();
+    }
 
     public List<Auto> findAutoByMiasto(Miasto miasto) {
         return autoRepository.findAutoByMiasto(miasto);

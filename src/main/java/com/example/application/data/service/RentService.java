@@ -6,8 +6,6 @@ import com.example.application.data.repository.RentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 @Service
 public class RentService {
@@ -19,11 +17,27 @@ public class RentService {
     private AutoService autoService;
 
 
+    public List<Rent> findAll() {
+        return rentRepository.findAll();
+    }
+
+    public void deleteRent(Rent rent){
+        rentRepository.delete(rent);
+
+    }
+    public void saveRent(Rent rent){
+        if(rent == null){
+            System.err.println("Rent is null.");
+            return;
+        }
+
+        rentRepository.save(rent);
+    }
 
     public void create(Rent rent){
         rent.setId(null);
         rent.setCar(null);
-        rent.setKm(null);
+       // rent.setKm(null);
         rent.setRentDate(null);
         rent.setDriver(null);
         rent.setReturnDate(null);
@@ -40,9 +54,9 @@ public class RentService {
 //        rentRepository.save(rent);
 //    }
 
-    public List<Rent> findRunningRentals() {
-        return rentRepository.findRunningRentals();
-    }
+//    public List<Rent> findRunningRentals() {
+//        return rentRepository.findRunningRentals();
+//    }
 
     public List<Rent> findByCar(Auto auto) {
         return rentRepository.findByCar(auto);
@@ -57,19 +71,6 @@ public class RentService {
         } else {
             return rentRepository.search(filterText);
         }
-    }
-
-    public void deleteCar(Rent rent){
-        rentRepository.delete(rent);
-
-    }
-    public void saveCar(Rent rent){
-        if(rent == null){
-            System.err.println("Rent is null.");
-            return;
-        }
-
-        rentRepository.save(rent);
     }
 
 }

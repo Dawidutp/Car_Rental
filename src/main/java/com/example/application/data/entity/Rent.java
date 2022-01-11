@@ -27,9 +27,9 @@ public class Rent implements Serializable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate;
-    @NotNull
-    @Column(name = "Km")
-    private Integer km;
+//    @NotNull
+//    @Column(name = "Km")
+//    private Integer km;
 
     @ManyToOne
     @NotNull

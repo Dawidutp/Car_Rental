@@ -1,35 +1,37 @@
-package com.example.application.views.list.ClientView;
+package com.example.application.views.list;
 
 import com.example.application.data.entity.Auto;
+import com.example.application.data.entity.Klient;
 import com.example.application.data.service.AutoService;
+import com.example.application.data.service.KlientService;
 import com.example.application.data.service.MiastoService;
-import com.example.application.views.list.AddCarForm;
-import com.example.application.views.list.MainLayout;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.checkerframework.checker.units.qual.K;
 
 import javax.annotation.security.PermitAll;
 
-@Route(value = "MainClientView", layout = MainLayout2.class)
+@Route(value = "Clients", layout = MainLayout.class)
+@PageTitle("Clients | CarRent")
 @PermitAll
-public class MainView extends VerticalLayout {
-    Grid<Auto> grid = new Grid<>(Auto.class);
+public class ClientView extends VerticalLayout {
+    Grid<Klient> grid = new Grid<>(Klient.class);
     TextField filterText = new TextField();
-    AddCarForm form;
-    private AutoService autoService;
-    private MiastoService miastoService;
+    AddClientForm form;
+    private KlientService klientService;
 
-    public MainView(AutoService autoService,MiastoService miastoService) {
-        this.autoService = autoService;
-        this.miastoService = miastoService;
-        addClassName("list-view");
+    public ClientView(KlientService klientService) {
+
+        this.klientService = klientService;
+
+        addClassName("client-view");
         setSizeFull();
 
         configureGrid();
@@ -45,13 +47,13 @@ public class MainView extends VerticalLayout {
     }
 
     private void closeEditor() {
-        form.setAuto(null);
+        form.setClient(null);
         form.setVisible(false);
         removeClassName("editing");
     }
 
     private void updateList() {
-        grid.setItems(autoService.findAllCars(filterText.getValue()));
+        grid.setItems(klientService.findAllClients(filterText.getValue()));
     }
 
     private Component getContent(){
@@ -63,21 +65,21 @@ public class MainView extends VerticalLayout {
         return content;
     }
     private void configureForm() {
-        form = new AddCarForm(miastoService.findAll());
+        form = new AddClientForm();
         form.setWidth("25em");
 
-        form.addListener(AddCarForm.SaveEvent.class, this::saveCar);
-        form.addListener(AddCarForm.DeleteEvent.class, this::deleteCar);
-        form.addListener(AddCarForm.CloseEvent.class, e -> closeEditor());
+        form.addListener(AddClientForm.SaveEvent.class, this::saveClient);
+        form.addListener(AddClientForm.DeleteEvent.class, this::deleteClient);
+        form.addListener(AddClientForm.CloseEvent.class, e -> closeEditor());
     }
 
-    private void saveCar(AddCarForm.SaveEvent event){
-        autoService.saveCar(event.getAuto());
+    private void saveClient(AddClientForm.SaveEvent event){
+        klientService.saveClient(event.getKlient());
         updateList();
         closeEditor();
     }
-    private void deleteCar(AddCarForm.DeleteEvent event){
-        autoService.deleteCar(event.getAuto());
+    private void deleteClient(AddClientForm.DeleteEvent event){
+        klientService.deleteClient(event.getKlient());
         updateList();
         closeEditor();
     }
@@ -88,36 +90,35 @@ public class MainView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e ->updateList());
 
-        Button addcarButton = new Button("Add car");
-        addcarButton.addClickListener(e -> addCar());
+        Button addcarButton = new Button("Add Client");
+        addcarButton.addClickListener(e -> addClient());
 
-        Button login = new Button("Login", buttonClickEvent -> UI.getCurrent().navigate("login"));
-        HorizontalLayout toolbar = new HorizontalLayout(filterText,addcarButton, login);
+        HorizontalLayout toolbar = new HorizontalLayout(filterText,addcarButton);
         toolbar.addClassName("toolbar");
         return toolbar;
     }
 
-    private void addCar() {
+    private void addClient() {
         grid.asSingleSelect().clear();
-        editAuto(new Auto());
+        editClient(new Klient());
     }
 
     private void configureGrid(){
-        grid.addClassName("Cars-grid");
+        grid.addClassName("Clients-grid");
         grid.setSizeFull();
-        grid.setColumns("VINnumber","registrationNumber","model","przebieg");
+        grid.setColumns("Id","Email","Password","Imie","Nazwisko","enabled","role");
         grid.getColumns().forEach(col->col.setAutoWidth(true));
 
 
-        grid.asSingleSelect().addValueChangeListener(e -> editAuto(e.getValue()));
+        grid.asSingleSelect().addValueChangeListener(e -> editClient(e.getValue()));
 
     }
 
-    private void editAuto(Auto auto) {
-        if(auto == null) {
+    private void editClient(Klient klient) {
+        if(klient == null) {
             closeEditor();
         } else {
-            form.setAuto(auto);
+            form.setClient(klient);
             form.setVisible(true);
             addClassName("editing");
         }

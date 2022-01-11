@@ -1,14 +1,12 @@
 package com.example.application.views.list;
 
-import com.example.application.data.entity.Auto;
-import com.example.application.data.entity.Miasto;
+import com.example.application.data.entity.Klient;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
@@ -20,38 +18,40 @@ import com.vaadin.flow.shared.Registration;
 
 import java.util.List;
 
-public class AddCarForm extends FormLayout {
-    Binder<Auto> binder = new BeanValidationBinder<>(Auto.class);
-    
-    IntegerField VINnumber = new IntegerField("Numer VIN");
-    TextField registrationNumber = new TextField("Numer rejestracyjny");
-    TextField model= new TextField("Model");
-    IntegerField przebieg= new IntegerField("Przebieg");
-    ComboBox<Miasto> miasto = new ComboBox<>("Miasto");
+public class AddClientForm extends FormLayout {
+    Binder<Klient> binder = new BeanValidationBinder<>(Klient.class);
+
+    IntegerField IdKlienta = new IntegerField("Id Klienta");
+    TextField Email = new TextField("Email");
+    TextField Password= new TextField("Hasło");
+    TextField Imie= new TextField("Przebieg");
+    TextField Nazwisko = new TextField("Miasto");
+    IntegerField enabled = new IntegerField("Aktywność konta");
+    TextField role = new TextField("Rola");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
-    private Auto auto;
+    private Klient klient;
 
-    public AddCarForm(List<Miasto> miasta) {
-        addClassName("auto-form");
+    public AddClientForm() {
+        addClassName("client-form");
         binder.bindInstanceFields(this);
 
-        miasto.setItems(miasta);
-        miasto.setItemLabelGenerator(Miasto::getNazwa);
 
-        add(VINnumber,
-                registrationNumber,
-                model,
-                przebieg,
-                miasto,
+        add(IdKlienta,
+                Email,
+                Password,
+                Imie,
+                Nazwisko,
+                enabled,
+                role,
                 createButtonsLayout());
     }
 
-    public void setAuto(Auto auto){
-        this.auto = auto;
-        binder.readBean(auto);
+    public void setClient(Klient klient){
+        this.klient = klient;
+        binder.readBean(klient);
     }
 
     private Component createButtonsLayout() {
@@ -60,8 +60,8 @@ public class AddCarForm extends FormLayout {
         close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, auto)));
-        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
+        delete.addClickListener(event -> fireEvent(new AddClientForm.DeleteEvent(this, klient)));
+        close.addClickListener(event -> fireEvent(new AddClientForm.CloseEvent(this)));
 
         save.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);
@@ -71,42 +71,42 @@ public class AddCarForm extends FormLayout {
 
     private void validateAndSave() {
         try {
-            binder.writeBean(auto);
-            fireEvent(new SaveEvent(this, auto));
+            binder.writeBean(klient);
+            fireEvent(new AddClientForm.SaveEvent(this, klient));
         } catch (ValidationException e){
             e.printStackTrace();
         }
     }
 
     // Events
-    public static abstract class AutoFormEvent extends ComponentEvent<AddCarForm> {
-        private Auto auto;
+    public static abstract class ClientFormEvent extends ComponentEvent<AddClientForm> {
+        private Klient klient;
 
-        protected AutoFormEvent(AddCarForm source, Auto auto) {
+        protected ClientFormEvent(AddClientForm source, Klient klient) {
             super(source, false);
-            this.auto = auto;
+            this.klient = klient;
         }
 
-        public Auto getAuto() {
-            return auto;
-        }
-    }
-
-    public static class SaveEvent extends AutoFormEvent {
-        SaveEvent(AddCarForm source, Auto auto) {
-            super(source, auto);
+        public Klient getKlient() {
+            return klient;
         }
     }
 
-    public static class DeleteEvent extends AutoFormEvent {
-        DeleteEvent(AddCarForm source, Auto auto) {
-            super(source, auto);
+    public static class SaveEvent extends AddClientForm.ClientFormEvent {
+        SaveEvent(AddClientForm source, Klient klient) {
+            super(source, klient);
+        }
+    }
+
+    public static class DeleteEvent extends AddClientForm.ClientFormEvent {
+        DeleteEvent(AddClientForm source, Klient klient) {
+            super(source, klient);
         }
 
     }
 
-    public static class CloseEvent extends AutoFormEvent {
-        CloseEvent(AddCarForm source) {
+    public static class CloseEvent extends AddClientForm.ClientFormEvent {
+        CloseEvent(AddClientForm source) {
             super(source, null);
         }
     }

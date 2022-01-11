@@ -7,19 +7,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAnyAttribute;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "Klient")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Klient {
+public class Klient implements Serializable {
 
     @Id
     @NotNull
-    private int IdKlienta;
+    private int Id;
     @NotNull
     @Column(name = "Email")
     private String Email;
@@ -34,7 +35,7 @@ public class Klient {
     private String Nazwisko;
     @NotNull
     @Column(name = "enabled")
-    private int enabled;
+    private Integer enabled;
     @NotNull
     @Column(name = "role")
     private String role;

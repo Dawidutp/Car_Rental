@@ -21,6 +21,11 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
 
+    private static final String LOGIN_PROCESSING_URL = "/login";
+    private static final String LOGIN_FAILURE_URL = "/login?error";
+    private static final String LOGIN_URL = "/login";
+    private static final String LOGOUT_SUCCESS_URL = "/login";
+
     @Autowired
     private DataSource dataSource;
 
@@ -39,15 +44,14 @@ public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/login2").permitAll()
+        http.csrf().disable().authorizeRequests()
                 .antMatchers("/ListView/*").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/MainClientView/*").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and()
-                .csrf().disable().formLogin()
-                .loginPage("/login2").permitAll()
-                .failureUrl("/login2?error=true")
+                .formLogin().permitAll()
+                .loginProcessingUrl("/login")
+                .failureUrl("/login?error=true")
                 .successHandler(succesHandler);
 
       //  super.configure(http);

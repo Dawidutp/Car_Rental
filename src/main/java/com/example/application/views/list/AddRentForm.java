@@ -1,7 +1,9 @@
-package com.example.application.views.list.ClientView;
+package com.example.application.views.list;
 
 import com.example.application.data.entity.Auto;
+import com.example.application.data.entity.Klient;
 import com.example.application.data.entity.Miasto;
+import com.example.application.data.entity.Rent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -9,49 +11,59 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 
 import java.util.List;
-/*
-public class AddRentForm extends FormLayout {
-    Binder<Auto> binder = new BeanValidationBinder<>(Auto.class);
 
-    IntegerField VINnumber = new IntegerField("VIN Number");
-    TextField registrationNumber = new TextField("Numer rejestracyjny");
-    TextField model= new TextField("Model");
-    IntegerField przebieg= new IntegerField("Przebieg");
+public class AddRentForm extends FormLayout {
+    Binder<Rent> binder = new BeanValidationBinder<>(Rent.class);
+
+    IntegerField id = new IntegerField("Id");
+    DatePicker rentDate = new DatePicker("Data wypożyczenia");
+    DatePicker returnDate = new DatePicker("Data oddania");
+    ComboBox<Klient> driver = new ComboBox<>("Kierowca");
+    ComboBox<Auto> car = new ComboBox<>("Samochód");
     ComboBox<Miasto> miasto = new ComboBox<>("Miasto");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
-    private Auto auto;
+    private Rent rent;
 
-    public AddRentForm(List<Miasto> miasta) {
+
+
+    public AddRentForm(List<Miasto> miasta, List<Klient> client, List<Auto> auto) {
         addClassName("rent-form");
         binder.bindInstanceFields(this);
 
         miasto.setItems(miasta);
         miasto.setItemLabelGenerator(Miasto::getNazwa);
 
-        add(VINnumber,
-                registrationNumber,
-                model,
-                przebieg,
+        car.setItems(auto);
+        car.setItemLabelGenerator(Auto::getModel);
+
+        driver.setItems(client);
+        driver.setItemLabelGenerator(Klient::getEmail);
+
+        add(id,
+                rentDate,
+                returnDate,
+                driver,
+                car,
                 miasto,
                 createButtonsLayout());
     }
 
-    public void setAuto(Auto auto){
-        this.auto = auto;
-        binder.readBean(auto);
+    public void setRent(Rent rent){
+        this.rent = rent;
+        binder.readBean(rent);
     }
 
     private Component createButtonsLayout() {
@@ -60,8 +72,8 @@ public class AddRentForm extends FormLayout {
         close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new com.example.application.views.list.ClientView.AddRentForm.DeleteEvent(this, auto)));
-        close.addClickListener(event -> fireEvent(new com.example.application.views.list.ClientView.AddRentForm.CloseEvent(this)));
+        delete.addClickListener(event -> fireEvent(new AddRentForm.DeleteEvent(this, rent)));
+        close.addClickListener(event -> fireEvent(new AddRentForm.CloseEvent(this)));
 
         save.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);
@@ -71,42 +83,42 @@ public class AddRentForm extends FormLayout {
 
     private void validateAndSave() {
         try {
-            binder.writeBean(auto);
-            fireEvent(new com.example.application.views.list.ClientView.AddRentForm.SaveEvent(this, auto));
+            binder.writeBean(rent);
+            fireEvent(new AddRentForm.SaveEvent(this, rent));
         } catch (ValidationException e){
             e.printStackTrace();
         }
     }
 
     // Events
-    public static abstract class AutoFormEvent extends ComponentEvent<com.example.application.views.list.AddCarForm> {
-        private Auto auto;
+    public static abstract class RentFormEvent extends ComponentEvent<AddRentForm> {
+        private Rent rent;
 
-        protected AutoFormEvent(com.example.application.views.list.ClientView.AddRentForm source, Auto auto) {
+        protected RentFormEvent(AddRentForm source, Rent rent) {
             super(source, false);
-            this.auto = auto;
+            this.rent = rent;
         }
 
-        public Auto getAuto() {
-            return auto;
-        }
-    }
-
-    public static class SaveEvent extends com.example.application.views.list.AddCarForm.AutoFormEvent {
-        SaveEvent(com.example.application.views.list.ClientView.AddRentForm source, Auto auto) {
-            super(source, auto);
+        public Rent getRent() {
+            return rent;
         }
     }
 
-    public static class DeleteEvent extends com.example.application.views.list.AddCarForm.AutoFormEvent {
-        DeleteEvent(com.example.application.views.list.ClientView.AddRentForm source, Auto auto) {
-            super(source, auto);
+    public static class SaveEvent extends AddRentForm.RentFormEvent {
+        SaveEvent(AddRentForm source, Rent rent) {
+            super(source, rent);
+        }
+    }
+
+    public static class DeleteEvent extends AddRentForm.RentFormEvent {
+        DeleteEvent(AddRentForm source, Rent rent) {
+            super(source, rent);
         }
 
     }
 
-    public static class CloseEvent extends com.example.application.views.list.AddCarForm.AutoFormEvent {
-        CloseEvent(com.example.application.views.list.AddCarForm source) {
+    public static class CloseEvent extends AddRentForm.RentFormEvent {
+        CloseEvent(AddRentForm source) {
             super(source, null);
         }
     }
@@ -115,4 +127,4 @@ public class AddRentForm extends FormLayout {
                                                                   ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
-}*/
+}

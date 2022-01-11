@@ -27,12 +27,14 @@ public class MainLayout extends AppLayout {
 
         RouterLink listView= new RouterLink("Cars",ListView.class);
         RouterLink rentView= new RouterLink("Rents",RentView.class);
+        RouterLink clientView= new RouterLink("Clients",ClientView.class);
         listView.setHighlightCondition(HighlightConditions.sameLocation());
 
 
         addToDrawer(new VerticalLayout(
                 listView,
-                rentView
+                rentView,
+                clientView
         ));
     }
 

@@ -1,8 +1,6 @@
-package com.example.application.views.list.ClientView;
+package com.example.application.views.list.ClientViews;
 
 import com.example.application.data.security.SecurityService;
-import com.example.application.views.list.ListView;
-import com.example.application.views.list.RentView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
