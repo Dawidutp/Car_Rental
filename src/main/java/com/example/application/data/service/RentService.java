@@ -33,6 +33,9 @@ public class RentService {
 
         rentRepository.save(rent);
     }
+    public long countRents() {
+        return rentRepository.count();
+    }
 
 //    public void create(Rent rent){
 //        rent.setId(null);

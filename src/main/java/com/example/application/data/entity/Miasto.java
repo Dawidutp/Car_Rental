@@ -1,6 +1,7 @@
 package com.example.application.data.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,5 +26,12 @@ public class Miasto implements Serializable {
     @NotNull
     @Column(name = "Nazwa_Miasta")
     private String Nazwa;
+
+    @Formula("(select count(c.id) from Rent c where c.id = id_miasta)")
+    private int rentCount;
+
+    public int getRentCount(){
+        return rentCount;
+    }
 
 }

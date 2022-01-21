@@ -25,7 +25,7 @@ import javax.annotation.security.PermitAll;
 public class MainView extends VerticalLayout {
     Grid<Auto> grid = new Grid<>(Auto.class);
     TextField filterText = new TextField();
-    AddRentForm rentForm;
+    ClientRentForm rentForm;
     private AutoService autoService;
     private MiastoService miastoService;
     private KlientService klientService;
@@ -70,14 +70,14 @@ public class MainView extends VerticalLayout {
         return content;
     }
     private void configureForm() {
-        rentForm = new AddRentForm(miastoService.findAll(),klientService.findAll(),autoService.findAll());
+        rentForm = new ClientRentForm(miastoService.findAll(),klientService.findAll(),autoService.findAll());
         rentForm.setWidth("25em");
 
-        rentForm.addListener(AddRentForm.SaveEvent.class, this::saveRent);
-        rentForm.addListener(AddRentForm.CloseEvent.class, e -> closeEditor());
+        rentForm.addListener(ClientRentForm.SaveEvent.class, this::saveRent);
+        rentForm.addListener(ClientRentForm.CloseEvent.class, e -> closeEditor());
     }
 
-    private void saveRent(AddRentForm.SaveEvent event){
+    private void saveRent(ClientRentForm.SaveEvent event){
         rentService.saveRent(event.getRent());
         updateList();
         closeEditor();
