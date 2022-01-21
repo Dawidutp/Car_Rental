@@ -85,7 +85,7 @@ public class ClientView extends VerticalLayout {
     }
 
     private Component getToolbar(){
-        filterText.setPlaceholder("Filter by model or Vin");
+        filterText.setPlaceholder("Filter by id or Last Name");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e ->updateList());
@@ -106,7 +106,7 @@ public class ClientView extends VerticalLayout {
     private void configureGrid(){
         grid.addClassName("Clients-grid");
         grid.setSizeFull();
-        grid.setColumns("Id","Email","Password","Imie","Nazwisko","enabled","role");
+        grid.setColumns("id","email","password","imie","nazwisko","enabled","role");
         grid.getColumns().forEach(col->col.setAutoWidth(true));
 
 

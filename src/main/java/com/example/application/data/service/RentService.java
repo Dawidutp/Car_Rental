@@ -34,16 +34,16 @@ public class RentService {
         rentRepository.save(rent);
     }
 
-    public void create(Rent rent){
-        rent.setId(null);
-        rent.setCar(null);
-       // rent.setKm(null);
-        rent.setRentDate(null);
-        rent.setDriver(null);
-        rent.setReturnDate(null);
-
-        rentRepository.save(rent);
-    }
+//    public void create(Rent rent){
+//        rent.setId(null);
+//        rent.setCar(null);
+//       // rent.setKm(null);
+//        rent.setRentDate(null);
+//        rent.setDriver(null);
+//        rent.setReturnDate(null);
+//
+//        rentRepository.save(rent);
+//    }
 
 //    public void finish(Rent rent, FinishRentalBean finishRentalBean) {
 //        rent.setMiasto(finishRentalBean.getMiasto());

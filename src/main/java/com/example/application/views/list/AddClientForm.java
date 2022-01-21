@@ -21,7 +21,7 @@ import java.util.List;
 public class AddClientForm extends FormLayout {
     Binder<Klient> binder = new BeanValidationBinder<>(Klient.class);
 
-    IntegerField IdKlienta = new IntegerField("Id Klienta");
+    IntegerField id = new IntegerField("Id Klienta");
     TextField Email = new TextField("Email");
     TextField Password= new TextField("Hasło");
     TextField Imie= new TextField("Przebieg");
@@ -39,7 +39,7 @@ public class AddClientForm extends FormLayout {
         binder.bindInstanceFields(this);
 
 
-        add(IdKlienta,
+        add(id,
                 Email,
                 Password,
                 Imie,

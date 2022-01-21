@@ -22,10 +22,8 @@ public class Rent implements Serializable {
     private Integer id;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate rentDate;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate returnDate;
 //    @NotNull
 //    @Column(name = "Km")
