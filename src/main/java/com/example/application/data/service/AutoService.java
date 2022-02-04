@@ -5,12 +5,18 @@ import com.example.application.data.entity.Klient;
 import com.example.application.data.entity.Miasto;
 import com.example.application.data.repository.AutoRepository;
 import com.example.application.data.util.MessagesBean;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.server.StreamResource;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 @Service
 public class AutoService {
@@ -30,9 +36,6 @@ public class AutoService {
         return autoRepository.findAutoByMiasto(miasto);
     }
 
-    public List<Auto> findAutoByPrzebiegLessThan(Integer przebieg) {
-        return autoRepository.findAutoByPrzebiegLessThan(przebieg);
-    }
     public List<Auto> findAllCars(String filterText){
         if(filterText == null || filterText.isEmpty()){
             return autoRepository.findAll();
@@ -41,19 +44,6 @@ public class AutoService {
         }
     }
 
-    public Auto create(Auto auto) {
-        if (auto.getMiasto() == null) {
-            throw new IllegalArgumentException(messages.get("Auto nie istnieje"));
-        }
-        if (auto.getMiasto().getId_miasta() == null || !miastoService.existsById(auto.getMiasto().getId_miasta())) {
-            throw new EntityNotFoundException(messages.get("Miasto nie istnieje"));
-        }
-        if (autoRepository.existsById(auto.getVINnumber())) {
-            throw new EntityExistsException(messages.get("Auto istnieje"));
-        }
-        return autoRepository.save(auto);
-
-        }
     public void deleteCar(Auto auto){
         autoRepository.delete(auto);
 
@@ -65,5 +55,17 @@ public class AutoService {
         }
 
         autoRepository.save(auto);
+    }
+
+    public Image generateImage(Auto auto) {
+        Integer id = auto.getVINnumber();
+        StreamResource sr = new StreamResource("auto", () ->  {
+            Auto attached = autoRepository.findWithPropertyPictureAttachedByVINnumber(id);
+            return new ByteArrayInputStream(attached.getZdjecie());
+        });
+        sr.setContentType("image/png");
+        Image image = new Image(sr, "picture");
+        return image;
+
     }
 }

@@ -12,6 +12,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -26,6 +27,8 @@ public class MainView extends VerticalLayout {
     Grid<Auto> grid = new Grid<>(Auto.class);
     TextField filterText = new TextField();
     ClientRentForm rentForm;
+    private Auto auto;
+    private VerticalLayout imageContainer;
     private AutoService autoService;
     private MiastoService miastoService;
     private KlientService klientService;
@@ -49,6 +52,7 @@ public class MainView extends VerticalLayout {
 
         updateList();
         closeEditor();
+        initImageContainer();
     }
 
     private void closeEditor() {
@@ -109,7 +113,13 @@ public class MainView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("VINnumber","registrationNumber","model","przebieg");
         grid.getColumns().forEach(col->col.setAutoWidth(true));
-
+        grid.asSingleSelect().addValueChangeListener(event-> {
+            Auto selectedUser = event.getValue();
+            if ( selectedUser != null){
+                auto = selectedUser;
+                showImage();
+            }
+        });
 
 
     }
@@ -123,6 +133,20 @@ public class MainView extends VerticalLayout {
             rentForm.setVisible(true);
             addClassName("editing");
         }
+    }
+    private void showImage() {
+        Image image = autoService.generateImage(auto);
+        image.setHeight("100%");
+        imageContainer.removeAll();
+        imageContainer.add(image);
+    }
+
+    private void initImageContainer(){
+        imageContainer = new VerticalLayout();
+        imageContainer.setWidth("600px");
+        imageContainer.setHeight("600px");
+        imageContainer.getStyle().set("overflow-x", "auto");
+        add(imageContainer);
     }
 
 }

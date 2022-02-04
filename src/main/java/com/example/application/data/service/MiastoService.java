@@ -13,5 +13,4 @@ public class MiastoService {
 
     public List<Miasto> findAll() {return miastoRepository.findAll();}
 
-    public boolean existsById(Integer id){return miastoRepository.existsById(id);}
 }

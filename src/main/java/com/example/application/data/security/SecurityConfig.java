@@ -1,19 +1,13 @@
 package com.example.application.data.security;
 
-import com.example.application.views.list.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import javax.sql.DataSource;
 
@@ -54,7 +48,11 @@ public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
                 .failureUrl("/login?error=true")
                 .successHandler(succesHandler);
 
-      //  super.configure(http);
-      //  setLoginView(http, LoginView.class);
     }
+    public String currentUser(Authentication authentication){
+
+        System.out.println(authentication.getName());
+        return authentication.getName();
+    }
+
 }

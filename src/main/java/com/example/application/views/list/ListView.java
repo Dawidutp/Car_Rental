@@ -7,13 +7,16 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.textfield.TextField;
+import org.hibernate.dialect.function.TemplateRenderer;
 
 import javax.annotation.security.PermitAll;
+import javax.swing.text.html.ImageView;
 
 
 @Route(value = "ListView", layout = MainLayout.class)
@@ -22,6 +25,8 @@ public class ListView extends VerticalLayout {
     Grid<Auto> grid = new Grid<>(Auto.class);
     TextField filterText = new TextField();
     AddCarForm form;
+    private Auto auto;
+    private VerticalLayout imageContainer;
     private AutoService autoService;
     private MiastoService miastoService;
 
@@ -41,6 +46,7 @@ public class ListView extends VerticalLayout {
 
         updateList();
         closeEditor();
+        initImageContainer();
     }
 
     private void closeEditor() {
@@ -108,6 +114,13 @@ public class ListView extends VerticalLayout {
 
 
         grid.asSingleSelect().addValueChangeListener(e -> editAuto(e.getValue()));
+        grid.asSingleSelect().addValueChangeListener(event-> {
+            Auto selectedUser = event.getValue();
+            if ( selectedUser != null){
+                auto = selectedUser;
+                showImage();
+            }
+        });
 
     }
 
@@ -119,6 +132,20 @@ public class ListView extends VerticalLayout {
             form.setVisible(true);
             addClassName("editing");
         }
+    }
+    private void showImage() {
+        Image image = autoService.generateImage(auto);
+        image.setHeight("100%");
+        imageContainer.removeAll();
+        imageContainer.add(image);
+    }
+
+    private void initImageContainer(){
+        imageContainer = new VerticalLayout();
+        imageContainer.setWidth("600px");
+        imageContainer.setHeight("600px");
+        imageContainer.getStyle().set("overflow-x", "auto");
+        add(imageContainer);
     }
 
 }

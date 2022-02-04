@@ -29,6 +29,7 @@ public class MainLayout extends AppLayout {
         RouterLink rentView= new RouterLink("Rents",RentView.class);
         RouterLink clientView= new RouterLink("Clients",ClientView.class);
         RouterLink statsView= new RouterLink("Statistics",StatisticsView.class);
+        RouterLink addImageView = new RouterLink("Add Image",AddPictuerView.class);
         listView.setHighlightCondition(HighlightConditions.sameLocation());
 
 
@@ -36,7 +37,8 @@ public class MainLayout extends AppLayout {
                 listView,
                 rentView,
                 clientView,
-                statsView
+                statsView,
+                addImageView
         ));
     }
 

@@ -2,6 +2,8 @@ package com.example.application.views.list;
 
 import com.example.application.data.entity.Auto;
 import com.example.application.data.entity.Miasto;
+import com.example.application.data.repository.AutoRepository;
+import com.example.application.data.service.AutoService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -10,19 +12,27 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class AddCarForm extends FormLayout {
     Binder<Auto> binder = new BeanValidationBinder<>(Auto.class);
-    
+
     IntegerField VINnumber = new IntegerField("Numer VIN");
     TextField registrationNumber = new TextField("Numer rejestracyjny");
     TextField model= new TextField("Model");
@@ -48,6 +58,7 @@ public class AddCarForm extends FormLayout {
                 miasto,
                 createButtonsLayout());
     }
+
 
     public void setAuto(Auto auto){
         this.auto = auto;

@@ -15,23 +15,11 @@ public class KlientService {
 
     @Autowired
     private KlientRepository klientRepository;
-    @Autowired
-    private MessagesBean messages;
 
     public List<Klient> findAll() {
         return klientRepository.findAll();
     }
-//
-//    public Klient create(Klient klient) {
-//        if (klientRepository.existsById(klient.getIdKlienta())) {
-//            throw new EntityExistsException(messages.get("customerAlreadyExists"));
-//        }
-//        return klientRepository.save(klient);
-//    }
 
-    public boolean existsById(Integer id) {
-        return klientRepository.existsById(id);
-    }
 
     public List<Klient> findAllClients(String filterText){
         if(filterText == null || filterText.isEmpty()){

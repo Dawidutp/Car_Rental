@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.io.Serializable;
 
 @Entity
@@ -30,6 +31,9 @@ public class Auto implements Serializable {
     private int przebieg;
     @ManyToOne
     private Miasto miasto;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] zdjecie;
 
     public void setregistrationNumber(String registrationNumber) { this.registrationNumber = registrationNumber.strip();}
 

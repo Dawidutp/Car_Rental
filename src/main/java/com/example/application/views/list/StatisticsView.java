@@ -42,7 +42,7 @@ public class StatisticsView extends VerticalLayout {
     }
 
     private Component getRentStats() {
-        Span stats = new Span(rentService.countRents() + "wypożyczenia");
+        Span stats = new Span(rentService.countRents() + " wypożyczenia");
         stats.addClassName("text-xl");
         return stats;
     }
