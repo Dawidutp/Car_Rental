@@ -25,16 +25,12 @@ public class AutoService {
     private AutoRepository autoRepository;
     @Autowired
     private MiastoService miastoService;
-    @Autowired
-    private MessagesBean messages;
+
 
     public List<Auto> findAll() {
         return autoRepository.findAll();
     }
 
-    public List<Auto> findAutoByMiasto(Miasto miasto) {
-        return autoRepository.findAutoByMiasto(miasto);
-    }
 
     public List<Auto> findAllCars(String filterText){
         if(filterText == null || filterText.isEmpty()){
@@ -58,9 +54,9 @@ public class AutoService {
     }
 
     public Image generateImage(Auto auto) {
-        Integer id = auto.getVINnumber();
+        Integer id = auto.getVIN();
         StreamResource sr = new StreamResource("auto", () ->  {
-            Auto attached = autoRepository.findWithPropertyPictureAttachedByVINnumber(id);
+            Auto attached = autoRepository.findWithPropertyPictureAttachedByVIN(id);
             return new ByteArrayInputStream(attached.getZdjecie());
         });
         sr.setContentType("image/png");

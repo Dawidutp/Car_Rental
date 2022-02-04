@@ -106,7 +106,7 @@ public class ClientView extends VerticalLayout {
     private void configureGrid(){
         grid.addClassName("Clients-grid");
         grid.setSizeFull();
-        grid.setColumns("id","email","password","imie","nazwisko","enabled","role");
+        grid.setColumns("id","email","password","name","lastName","enabled","role");
         grid.getColumns().forEach(col->col.setAutoWidth(true));
 
 

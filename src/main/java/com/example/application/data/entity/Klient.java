@@ -28,11 +28,11 @@ public class Klient implements Serializable {
     @Column(name = "Password")
     private String Password;
     @NotNull
-    @Column(name = "Imie")
-    private String Imie;
+    @Column(name = "Name")
+    private String Name;
     @NotNull
-    @Column(name = "Nazwisko")
-    private String Nazwisko;
+    @Column(name = "LastName")
+    private String LastName;
     @NotNull
     @Column(name = "enabled")
     private Integer enabled;

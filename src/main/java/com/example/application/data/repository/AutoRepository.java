@@ -13,13 +13,12 @@ import java.util.List;
 public interface AutoRepository extends JpaRepository<Auto, Integer> {
     List<Auto> findAutoByMiasto(Miasto miasto);
 
-    List<Auto> findAutoByPrzebiegLessThan(Integer przebieg);
     @Query("select a from Auto a " +
     "where  lower(a.model) like lower(concat('%', :searchTerm, '%') ) " +
-    "or lower(a.VINnumber) like lower(concat('%', :searchTerm, '%') ) ")
+    "or lower(a.VIN) like lower(concat('%', :searchTerm, '%') ) ")
     List<Auto> search(@Param("searchTerm") String searchTerm);
 
 
     @EntityGraph(attributePaths={"zdjecie"})
-    Auto findWithPropertyPictureAttachedByVINnumber(Integer VINnumber);
+    Auto findWithPropertyPictureAttachedByVIN(Integer VIN);
 }

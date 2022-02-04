@@ -21,13 +21,13 @@ import java.util.List;
 public class AddClientForm extends FormLayout {
     Binder<Klient> binder = new BeanValidationBinder<>(Klient.class);
 
-    IntegerField id = new IntegerField("Id Klienta");
+    IntegerField id = new IntegerField("Client Id");
     TextField Email = new TextField("Email");
-    TextField Password= new TextField("Hasło");
-    TextField Imie= new TextField("Przebieg");
-    TextField Nazwisko = new TextField("Miasto");
-    IntegerField enabled = new IntegerField("Aktywność konta");
-    TextField role = new TextField("Rola");
+    TextField Password= new TextField("Password");
+    TextField Name= new TextField("Name");
+    TextField LastName = new TextField("Last Name");
+    IntegerField enabled = new IntegerField("Account Status");
+    TextField role = new TextField("Role");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -42,8 +42,8 @@ public class AddClientForm extends FormLayout {
         add(id,
                 Email,
                 Password,
-                Imie,
-                Nazwisko,
+                Name,
+                LastName,
                 enabled,
                 role,
                 createButtonsLayout());

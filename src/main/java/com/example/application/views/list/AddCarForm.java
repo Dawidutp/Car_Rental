@@ -33,11 +33,11 @@ import java.util.List;
 public class AddCarForm extends FormLayout {
     Binder<Auto> binder = new BeanValidationBinder<>(Auto.class);
 
-    IntegerField VINnumber = new IntegerField("Numer VIN");
-    TextField registrationNumber = new TextField("Numer rejestracyjny");
+    IntegerField VIN= new IntegerField("VIN");
+    TextField registrationNumber = new TextField("Registration Number");
     TextField model= new TextField("Model");
-    IntegerField przebieg= new IntegerField("Przebieg");
-    ComboBox<Miasto> miasto = new ComboBox<>("Miasto");
+    IntegerField mileage= new IntegerField("Mileage");
+    ComboBox<Miasto> miasto = new ComboBox<>("City");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -51,10 +51,10 @@ public class AddCarForm extends FormLayout {
         miasto.setItems(miasta);
         miasto.setItemLabelGenerator(Miasto::getNazwa);
 
-        add(VINnumber,
+        add(VIN,
                 registrationNumber,
                 model,
-                przebieg,
+                mileage,
                 miasto,
                 createButtonsLayout());
     }

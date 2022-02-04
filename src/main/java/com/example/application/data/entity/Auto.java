@@ -19,7 +19,7 @@ public class Auto implements Serializable {
     @Id
     @NotNull
     @Column(name = "VIN")
-    private int VINnumber;
+    private int VIN;
     @NotNull
     @Column(name = "Numer_rejestracyjny")
     private String registrationNumber;
@@ -27,8 +27,8 @@ public class Auto implements Serializable {
     @Column(name = "Model")
     private String model;
     @NotNull
-    @Column(name = "Przebieg")
-    private int przebieg;
+    @Column(name = "Mileage")
+    private int mileage;
     @ManyToOne
     private Miasto miasto;
     @Lob

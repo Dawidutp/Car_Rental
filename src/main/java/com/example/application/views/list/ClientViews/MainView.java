@@ -111,7 +111,7 @@ public class MainView extends VerticalLayout {
     private void configureGrid(){
         grid.addClassName("Cars-grid");
         grid.setSizeFull();
-        grid.setColumns("VINnumber","registrationNumber","model","przebieg");
+        grid.setColumns("VIN","registrationNumber","model","mileage");
         grid.getColumns().forEach(col->col.setAutoWidth(true));
         grid.asSingleSelect().addValueChangeListener(event-> {
             Auto selectedUser = event.getValue();

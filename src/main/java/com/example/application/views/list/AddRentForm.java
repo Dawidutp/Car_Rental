@@ -26,11 +26,11 @@ public class AddRentForm extends FormLayout {
     Binder<Rent> binder = new BeanValidationBinder<>(Rent.class);
 
     IntegerField id = new IntegerField("Id");
-    DatePicker rentDate = new DatePicker("Data wypożyczenia");
-    DatePicker returnDate = new DatePicker("Data oddania");
-    ComboBox<Klient> driver = new ComboBox<>("Kierowca");
-    ComboBox<Auto> car = new ComboBox<>("Samochód");
-    ComboBox<Miasto> miasto = new ComboBox<>("Miasto");
+    DatePicker rentDate = new DatePicker("Rent Date");
+    DatePicker returnDate = new DatePicker("Return Date");
+    ComboBox<Klient> driver = new ComboBox<>("Driver");
+    ComboBox<Auto> car = new ComboBox<>("Car");
+    ComboBox<Miasto> miasto = new ComboBox<>("City");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");

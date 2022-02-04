@@ -109,7 +109,7 @@ public class ListView extends VerticalLayout {
     private void configureGrid(){
         grid.addClassName("Cars-grid");
         grid.setSizeFull();
-        grid.setColumns("VINnumber","registrationNumber","model","przebieg");
+        grid.setColumns("VIN","registrationNumber","model","mileage");
         grid.getColumns().forEach(col->col.setAutoWidth(true));
 
 
